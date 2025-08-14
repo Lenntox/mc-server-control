@@ -1,0 +1,24 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 50px;
+}
+
+.status-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.running {
+  color: #4caf50; /* Green */
+}
+
+.stopped {
+  color: #f44336; /* Red */
+}
+
+.unknown {
+  color: #9e9e9e; /* Grey */
+}

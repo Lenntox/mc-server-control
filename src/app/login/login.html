@@ -9,14 +9,28 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="password" name="password" type="password" required />
+        <input
+          matInput
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          required
+        />
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-        {{ loading ? 'Logging in...' : 'Login' }}
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loading"
+      >
+        {{ loading ? "Logging in..." : "Login" }}
       </button>
 
       <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
     </form>
+    @if (loading) {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    }
   </mat-card>
 </div>

@@ -1,2 +1,23 @@
-<main>
-</main>
+<div class="home-container">
+  @if (running !== null) {
+    <div class="status-text" [ngClass]="running ? 'running' : 'stopped'">
+      Server is {{ running ? 'RUNNING' : 'STOPPED' }}
+    </div>
+  } @else {
+    <div class="status-text unknown">
+      Status UNKNOWN
+    </div>
+  }
+
+  @if (loading) {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  } @else if (running !== null) {
+    <button
+      mat-raised-button
+      [color]="running ? 'warn' : 'primary'"
+      (click)="toggleServer()"
+    >
+      {{ running ? 'Stop' : 'Start' }} Server
+    </button>
+  }
+</div>
