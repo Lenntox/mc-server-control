@@ -35,9 +35,10 @@ export class Login {
     this.loading = true;
 
     this.authService.login(this.username, this.password).subscribe({
-      next: () => {
+      next: (res) => {
+        this.authService.saveToken(res.token)
         this.loading = false;
-        this.router.navigate(['/control']);
+        this.router.navigateByUrl('/home');
       },
       error: (err) => {
         this.loading = false;
