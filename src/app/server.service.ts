@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
@@ -8,7 +8,8 @@ const { API_URL } = environment;
 @Injectable({ providedIn: 'root' })
 export class ServerService {
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  private http: HttpClient = inject(HttpClient)
+  private auth: AuthService = inject(AuthService)
 
   private getAuthHeaders() {
     return { Authorization: `Bearer ${this.auth.getToken()}` };

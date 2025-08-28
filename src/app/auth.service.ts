@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
@@ -9,7 +9,8 @@ const { API_URL } = environment;
 export class AuthService {
   private tokenKey = 'auth_token';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  private http: HttpClient = inject(HttpClient)
+  private router: Router = inject(Router)
 
   login(username: string, password: string) {
     return this.http.post<{ token: string }>(`${API_URL}/login`, { username, password });

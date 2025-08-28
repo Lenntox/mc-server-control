@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -23,7 +23,7 @@ export class Home implements OnInit {
   running: boolean | null = null;
   loading = false;
 
-  constructor(private serverService: ServerService) {}
+  private serverService: ServerService = inject(ServerService)
 
   ngOnInit() {
     this.fetchStatus();
