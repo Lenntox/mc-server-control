@@ -2,8 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-const API_URL = localStorage.getItem("serverIp");
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenKey = 'auth_token';
