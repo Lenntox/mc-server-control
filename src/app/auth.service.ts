@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../environments/environment';
 
-const { API_URL } = environment;
+const API_URL = localStorage.getItem("serverIp");
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,8 +11,8 @@ export class AuthService {
   private http: HttpClient = inject(HttpClient)
   private router: Router = inject(Router)
 
-  login(username: string, password: string) {
-    return this.http.post<{ token: string }>(`${API_URL}/login`, { username, password });
+  login(username: string, password: string, url: string) {
+    return this.http.post<{ token: string }>(`${url}/login`, { username, password });
   }
 
   saveToken(token: string) {
@@ -25,7 +24,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this.getToken() && !!localStorage.getItem("serverIp");
   }
 
   logout() {

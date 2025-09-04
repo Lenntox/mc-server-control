@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { environment } from '../environments/environment';
 
-const { API_URL } = environment;
+const API_URL = localStorage.getItem("serverIp");
 
 @Injectable({ providedIn: 'root' })
 export class ServerService {

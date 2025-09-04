@@ -3,6 +3,11 @@
     <h2>Login</h2>
     <form (ngSubmit)="login()">
       <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Server-IP</mat-label>
+        <input matInput [(ngModel)]="serverIp" name="serverIp" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Username</mat-label>
         <input matInput [(ngModel)]="username" name="username" required />
       </mat-form-field>

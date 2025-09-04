@@ -27,6 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class Login {
   username = '';
   password = '';
+  serverIp = '';
   errorMessage = '';
   loading = false;
 
@@ -37,11 +38,12 @@ export class Login {
     this.errorMessage = '';
     this.loading = true;
 
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.username, this.password, this.serverIp).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token)
         this.loading = false;
         this.router.navigateByUrl('/home');
+        localStorage.setItem("serverIp", this.serverIp)
       },
       error: (err) => {
         this.loading = false;
