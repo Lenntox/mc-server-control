@@ -1,18 +1,24 @@
-name: CI (Angular - Lint & Build)
+name: CI + Deploy (Angular → GitHub Pages)
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  lint-and-build:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,17 +32,43 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- Lint ---
       - name: Lint (ESLint)
         run: npm run lint
 
-      # --- Build ---
-      - name: Build (production)
-        run: npm run build -- --configuration=production
+      - name: Build (production, base href for project page)
+        env:
+          BASE_HREF: "/mc-server-control/"
+        run: |
+          npm run build -- --configuration=production --base-href $BASE_HREF
 
-      # --- Upload build artifact (optional) ---
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+      - name: Locate Angular dist path
+        id: distpath
+        shell: bash
+        run: |
+          set -e
+          BROWSER_DIR=$(ls -d dist/*/browser 2>/dev/null | head -n1 || true)
+          if [ -n "$BROWSER_DIR" ]; then
+            echo "path=$BROWSER_DIR" >> $GITHUB_OUTPUT
+          else
+            echo "path=$(ls -d dist/* | head -n1)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add SPA fallback (404.html)
+        run: |
+          cp "${{ steps.distpath.outputs.path }}/index.html" "${{ steps.distpath.outputs.path }}/404.html"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: dist
-          path: dist/
+          path: ${{ steps.distpath.outputs.path }}
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
