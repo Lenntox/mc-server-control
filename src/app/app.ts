@@ -1,8 +1,5 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { environment } from '../environments/environment';
-
-const { API_URL } = environment;
 
 @Component({
   selector: 'app-root',
@@ -10,10 +7,6 @@ const { API_URL } = environment;
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
-  protected readonly title = signal('mc-server-starter-frontend');
-
-  ngOnInit() {
-    console.log(API_URL);
-  }
+export class App {
+  protected readonly title = signal('MC Server Control');
 }

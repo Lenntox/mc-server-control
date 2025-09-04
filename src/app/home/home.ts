@@ -22,6 +22,7 @@ import { ServerService } from '../server.service';
 export class Home implements OnInit {
   running: boolean | null = null;
   loading = false;
+  serverIp = localStorage.getItem("serverIp")
 
   private serverService: ServerService = inject(ServerService)
 
