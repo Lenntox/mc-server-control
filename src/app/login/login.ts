@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router'; 
 import { AuthService } from '../auth.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule
   ],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
@@ -30,6 +32,7 @@ export class Login {
   serverIp = '';
   errorMessage = '';
   loading = false;
+  hidePassword = true;
 
   private authService: AuthService = inject(AuthService)
   private router: Router = inject(Router)
