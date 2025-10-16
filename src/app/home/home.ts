@@ -6,7 +6,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { ServerService } from '../server.service';
 import { MatIconModule } from '@angular/material/icon';
-import { OnSameUrlNavigation } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
