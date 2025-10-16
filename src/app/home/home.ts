@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { ServerService } from '../server.service';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,24 +16,28 @@ import { ServerService } from '../server.service';
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule,
   ],
   templateUrl: './home.html',
-  styleUrls: ['./home.scss']
+  styleUrls: ['./home.scss'],
 })
 export class Home implements OnInit {
   running: boolean | null = null;
   loading = false;
-  serverIp = localStorage.getItem("serverIp")
+  serverIp = localStorage.getItem('serverIp');
+  error = '';
 
-  private serverService: ServerService = inject(ServerService)
+  private serverService: ServerService = inject(ServerService);
+  private authService: AuthService = inject(AuthService);
 
   ngOnInit() {
+    this.loading = true;
     this.fetchStatus();
+    setInterval(() => this.fetchStatus(), 5000);
   }
 
   fetchStatus() {
-    this.loading = true;
     this.serverService.getStatus().subscribe({
       next: (res) => {
         this.running = res.running;
@@ -40,7 +46,8 @@ export class Home implements OnInit {
       error: () => {
         this.running = null;
         this.loading = false;
-      }
+        this.error = 'Error fetching status, try reloading page';
+      },
     });
   }
 
@@ -54,7 +61,15 @@ export class Home implements OnInit {
 
     action$.subscribe({
       next: () => this.fetchStatus(),
-      error: () => this.loading = false
+      error: () => (this.loading = false),
     });
+  }
+
+  onRefresh() {
+    this.ngOnInit();
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }
