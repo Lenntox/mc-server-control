@@ -45,3 +45,15 @@
   align-items: center;
   z-index: 1000; // ensure it’s above everything else
 }
+
+.refresh-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 10px;
+  left: 80px;
+}
