@@ -6,11 +6,15 @@ import { Router } from '@angular/router';
 export class AuthService {
   private tokenKey = 'auth_token';
 
-  private http: HttpClient = inject(HttpClient)
-  private router: Router = inject(Router)
+  private http: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
 
   login(username: string, password: string, url: string) {
-    return this.http.post<{ token: string }>(`${url}/login`, { username, password });
+    console.log('Logging in...  ');
+    return this.http.post<{ token: string }>(`${url}/login`, {
+      username,
+      password,
+    });
   }
 
   saveToken(token: string) {
@@ -22,7 +26,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken() && !!localStorage.getItem("serverIp");
+    return !!this.getToken() && !!localStorage.getItem('serverIp');
   }
 
   logout() {

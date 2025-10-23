@@ -44,6 +44,7 @@ export class Login {
     this.authService.login(this.username, this.password, this.serverIp).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token)
+        console.log("Logged in")
         this.loading = false;
         this.router.navigateByUrl('/home');
         localStorage.setItem("serverIp", this.serverIp)
