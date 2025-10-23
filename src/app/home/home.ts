@@ -28,13 +28,15 @@ export class Home implements OnInit {
   serverIp = localStorage.getItem('serverIp');
   error = '';
 
+  private statusInterval?: ReturnType<typeof setInterval>;
+
   private serverService: ServerService = inject(ServerService);
   private authService: AuthService = inject(AuthService);
 
   ngOnInit() {
     this.loading = true;
     this.fetchStatus();
-    setInterval(() => this.fetchStatus(), 5000);
+    this.statusInterval = setInterval(() => this.fetchStatus(), 5000);
   }
 
   fetchStatus() {
@@ -53,6 +55,7 @@ export class Home implements OnInit {
 
   toggleServer() {
     if (this.running === null) return;
+    clearInterval(this.statusInterval);
     this.loading = true;
 
     const action$ = this.running
@@ -60,7 +63,8 @@ export class Home implements OnInit {
       : this.serverService.startServer();
 
     action$.subscribe({
-      next: () => this.fetchStatus(),
+      next: () =>
+        (this.statusInterval = setInterval(() => this.fetchStatus(), 5000)),
       error: () => (this.loading = false),
     });
   }
