@@ -9,10 +9,12 @@
   </button>
 </div>
 <div class="home-container">
+  <img [src]="icon" alt="No Image Found">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>
-        {{ serverIp }}
+      <mat-card-title style="text-align: center">
+        {{ serverIp }} <br />
+        {{ version }}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -39,7 +41,11 @@
           {{ running ? "Stop" : "Start" }} Server
         </button>
         @if (error) {
-        <p style="color: red;">{{ error }}</p>
+        <p style="color: red">{{ error }}</p>
+        } @if (playerCount != "undefined/undefined"){
+        <h2>Players: {{ playerCount }}</h2>
+        } @for (player of playerList; track $index) {
+        <h3>{{ $index + ". " + player.name_clean }}</h3>
         }
       </div>
     </mat-card-content>
