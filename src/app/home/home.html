@@ -42,7 +42,7 @@
         </button>
         @if (error) {
         <p style="color: red">{{ error }}</p>
-        } @if (playerCount != "undefined/undefined"){
+        } @if (playerCount !== "undefined/undefined"){
         <h2>Players: {{ playerCount }}</h2>
         } @for (player of playerList; track $index) {
         <h3>{{ $index + ". " + player.name_clean }}</h3>
