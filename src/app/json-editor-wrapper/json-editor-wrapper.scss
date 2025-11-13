@@ -1,0 +1,15 @@
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor-host {
+  height: 500px;   // anpassen
+  width: 100%;
+}
+.errors {
+  font-size: 0.9rem;
+  color: #b00020;
+  white-space: pre-wrap;
+}

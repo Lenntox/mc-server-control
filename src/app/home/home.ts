@@ -7,6 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ServerService } from '../server.service';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../auth.service';
+import { JsonEditorWrapper } from "../json-editor-wrapper/json-editor-wrapper";
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import { AuthService } from '../auth.service';
     MatProgressSpinnerModule,
     MatChipsModule,
     MatIconModule,
-  ],
+    JsonEditorWrapper
+],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })

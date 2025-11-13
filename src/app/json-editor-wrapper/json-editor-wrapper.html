@@ -1,0 +1,9 @@
+<div class="editor-wrapper">
+  <div #editorHost class="editor-host"></div>
+
+    @if (validationErrors.length) { 
+        @for (err of validationErrors; track $index) {
+            <strong>{{ err.path.join(".") || "(root)" }}:</strong> {{ err.message }}
+        } 
+    }
+</div>
