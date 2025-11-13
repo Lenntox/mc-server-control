@@ -7,6 +7,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ServerService } from '../server.service';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../auth.service';
+import { McstatusService } from '../mcstatus.service';
+import { MinecraftPlayerSample } from '../../mcstatus.model';
 
 @Component({
   selector: 'app-home',
@@ -28,18 +30,37 @@ export class Home implements OnInit {
   serverIp = localStorage.getItem('serverIp');
   error = '';
 
-  private statusInterval?: ReturnType<typeof setInterval>;
+  version: string | undefined = undefined;
+  playerCount: string | undefined = undefined;
+  playerList: MinecraftPlayerSample[] | undefined = undefined;
+  icon: string | null | undefined = undefined
+
+  private infoInterval?: ReturnType<typeof setInterval>;
 
   private serverService: ServerService = inject(ServerService);
   private authService: AuthService = inject(AuthService);
+  private mcstatusService: McstatusService = inject(McstatusService);
 
   ngOnInit() {
     this.loading = true;
-    this.fetchStatus();
-    this.statusInterval = setInterval(() => this.fetchStatus(), 5000);
+    this.fetchInfo();
+    this.infoInterval = setInterval(() => this.fetchInfo(), 1000);
   }
 
-  fetchStatus() {
+  private fetchInfo() {
+    this.mcstatusService.loadStatusInfo()
+    this.fetchStatus();
+    this.fetchMcstatusInfo();
+  }
+
+  private fetchMcstatusInfo() {
+    this.version = this.mcstatusService.getVersion();
+    this.playerCount = this.mcstatusService.getPlayerCount();
+    this.playerList = this.mcstatusService.getPlayerList();
+    this.icon = this.mcstatusService.getServerIcon()
+  }
+
+  private fetchStatus() {
     this.serverService.getStatus().subscribe({
       next: (res) => {
         this.running = res.running;
@@ -55,7 +76,7 @@ export class Home implements OnInit {
 
   toggleServer() {
     if (this.running === null) return;
-    clearInterval(this.statusInterval);
+    clearInterval(this.infoInterval);
     this.loading = true;
 
     const action$ = this.running
@@ -64,7 +85,7 @@ export class Home implements OnInit {
 
     action$.subscribe({
       next: () =>
-        (this.statusInterval = setInterval(() => this.fetchStatus(), 5000)),
+        (this.infoInterval = setInterval(() => this.fetchStatus(), 5000)),
       error: () => (this.loading = false),
     });
   }
